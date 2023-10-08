@@ -1,0 +1,4 @@
+file_path=D:/data/联川/ml_vscode/ml_1.2/11.xlsx
+test_size= 0.2
+random_state=420
+select=True
