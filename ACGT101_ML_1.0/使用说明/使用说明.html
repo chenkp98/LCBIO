@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器学习分类模型使用说明</title>
+
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            background-color: #f1f1f1;
+            position: fixed;
+            overflow-y: auto;
+            top: 0;
+            left: 0;
+            width: 230px;
+            height: 98vh;
+            padding: 0px;
+            color: blue;
+            margin-top: 22px;
+        }
+
+        .sidebar h3 {
+            margin: 0;
+            padding: 7px 0;
+            margin-bottom: 0px;
+            margin-left: 15px;
+        }
+
+        .sidebar h4 {
+            margin: 0;
+            padding: 3px 0;
+            text-align: left;
+            margin-left: 20px;
+            color: #0976d6;
+        }
+
+        .sidebar h5 {
+            margin: 0;
+            padding: 4px 0;
+            text-align: left;
+            margin-left: 28px;
+        }
+
+        .sidebar a {
+            color: #276ba7;
+            text-decoration: none;
+        }
+
+        .sidebar ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .sidebar a:hover {
+            color: rgb(167, 174, 186);
+            background-color: #f1f1f1;
+        }
+
+        .content {
+            flex-grow: 2;
+            overflow-y: auto;
+            margin-left: 250px;
+            margin-right: 20px;
+        }
+
+        .content h3 {
+            text-indent: 1em;
+            /*设置首行缩进为2个em单位 */
+        }
+
+        .content h4 {
+            text-indent: 1em;
+            /*设置首行缩进为2个em单位 */
+        }
+
+        .content h1 {
+            margin-top: 0px;
+            line-height: 150%;
+            margin-bottom: 0px;
+        }
+
+        header {
+            text-align: center;
+            background-color: #0f68b7;
+            color: white;
+            position: relative;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #0f68b7;
+            color: white;
+            margin-bottom: 0cap;
+
+        }
+
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 55%;
+            /* 根据需要调整宽度 */
+        }
+
+        .paragraph {
+            line-height: 2;
+            /* 根据需要调整行高 */
+            text-indent: 2em;
+            /*设置首行缩进为2个em单位 */
+        }
+        table {
+            width: 75%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 12px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .table-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 160vh;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="images\logo1.png" width="230">
+            <h3><a href="#a1" onclick="toggleSecondTitle()">一、快速开始</a></h3>
+            <div id="secondTitle" class="hidden">
+                <h4><a href="#a1-1">Step1、第一步</a></h4>
+                <h4><a href="#a1-2">Step2、第二步</a></h4>
+                <h4><a href="#a1-3">Step3、第三步</a></h4>
+                <h4><a href="#a1-4">Step4、第四步</a></h4>
+                <h4><a href="#a1-5">&nbsp;--&nbsp;参数文件细则</a></h4>
+            </div>
+
+            <h3 style="color:#0f68b7;"><a href="#a2" onclick="toggleSecondTitle2()">二、分类算法介绍</a></h3>
+            <div id="secondTitle2" class="hidden">
+                <h4><a href="#a2-1">1、决策树</a></h4>
+                <h4><a href="#a2-2">2、K近邻</a></h4>
+                <h4><a href="#a2-3">3、逻辑回归</a></h4>
+                <h4><a href="#a2-4">4、随机森林</a></h4>
+                <h4><a href="#a2-5">5、支持向量机</a></h4>
+                <h4><a href="#a2-6">6、线性判别分析</a></h4>
+                <h4><a href="#a2-7">7、高斯朴素贝叶斯</a></h4>
+                <h4><a href="#a2-8">8、梯度提升决策树</a></h4>
+                <h4><a href="#a2-9">9、XGBoost</a></h4>
+                <h4><a href="#a2-10">10、自适应增强算法</a></h4>
+            </div>
+
+            <h3 style="color:#0f68b7;"><a href="#a3" onclick="toggleSecondTitle3()">三、APP流程</a></h3>
+            <div id="secondTitle3" class="hidden">
+                <h4><a href="#a3-1">1、数据导入</a></h4>
+                <h4><a href="#a3-2">2、数据处理</a></h4>
+                <h4><a href="#a3-3">3、预训练</a></h4>
+                <h4><a href="#a3-4">4、特征选择</a></h4>
+                <h4><a href="#a3-5">5、训练集、测试集的划分</a></h4>
+                <h4><a href="#a3-6" onclick="toggleSecondTitle3_1()">6、模型构建</a></h4>
+                <div id="secondTitle3_1" class="hidden">
+                    <h5><a href="#a3-6-1">1.决策树</a></h5>
+                    <h5><a href="#a3-6-2">2.K近邻</a></h5>
+                    <h5><a href="#a3-6-3">3.逻辑回归</a></h5>
+                    <h5><a href="#a3-6-4">4.随机森林</a></h5>
+                    <h5><a href="#a3-6-5">5.支持向量机</a></h5>
+                    <h5><a href="#a3-6-6">6.线性判别分析</a></h5>
+                    <h5><a href="#a3-6-7">7.高斯朴素贝叶斯</a></h5>
+                    <h5><a href="#a3-6-8">8.梯度提升决策树</a></h5>
+                    <h5><a href="#a3-6-9">9.XGBoost</a></h5>
+                    <h5><a href="#a3-6-10">10.自适应增强算法</a></h5>
+                </div>
+                    <h4><a href="#a3-7">7、模型评估</a></h5>
+                        <h4><a href="#a3-8">8、图表绘制及分析</a></h5>
+                
+            </div>
+            <h3 style="color:#083d6b;"><a href="#a4">四、未来更新目标</a></h3>
+            <h3><a href="#a3">
+                    <dr>
+                        <dr>
+                            <dr>
+                                <dr>
+                </a></h3>
+            <h3><a href="#a3">
+                    <dr>
+                        <dr>
+                            <dr>
+                                <dr>
+                </a></h3>
+            <h3><a href="#a3">
+                    <dr>
+                        <dr>
+                            <dr>
+                                <dr>
+                </a></h3>
+            <h3><a href="#a3">
+                    <dr>
+                        <dr>
+                            <dr>
+                                <dr>
+                </a></h3>
+            <h3><a href="#a3">
+                    <dr>
+                        <dr>
+                            <dr>
+                                <dr>
+                </a></h3>
+            <h3><a href="#a3">
+                    <dr>
+                        <dr>
+                            <dr>
+                                <dr>
+                </a></h3>
+            <h3><a href="#a3">
+                    <dr>
+                        <dr>
+                            <dr>
+                                <dr>
+                </a></h3>
+        </div>
+        <script>
+            function toggleSecondTitle() {
+                var secondTitle = document.getElementById("secondTitle");
+                if (secondTitle.classList.contains("hidden")) {
+                    secondTitle.classList.remove("hidden");
+                } else {
+                    secondTitle.classList.add("hidden");
+                }
+            }
+            function toggleSecondTitle2() {
+                var secondTitle2 = document.getElementById("secondTitle2");
+                if (secondTitle2.classList.contains("hidden")) {
+                    secondTitle2.classList.remove("hidden");
+                } else {
+                    secondTitle2.classList.add("hidden");
+                }
+            }
+            function toggleSecondTitle3() {
+                var secondTitle3 = document.getElementById("secondTitle3");
+                if (secondTitle3.classList.contains("hidden")) {
+                    secondTitle3.classList.remove("hidden");
+                } else {
+                    secondTitle3.classList.add("hidden");
+                }
+            }
+            function toggleSecondTitle3_1() {
+                var secondTitle3_1 = document.getElementById("secondTitle3_1");
+                if (secondTitle3_1.classList.contains("hidden")) {
+                    secondTitle3_1.classList.remove("hidden");
+                } else {
+                    secondTitle3_1.classList.add("hidden");
+                }
+            }
+        </script>
+
+
+
+        <div class="content">
+            <header>
+                <br>
+                <h1 id="a0"><strong>机器学习分类模型<br>使用说明</strong></h1><br>
+            </header>
+            <h3 class="paragraph"><strong>&nbsp;&nbsp;&nbsp;欢迎使用机器学习
+                    App！机器学习分类器APP是一款基于人工智能技术的应用程序，旨在帮助用户快速、准确地对数据进行分类和分析。该APP采用了先进的机器学习算法，如随机森林、支持向量机、XGBoost等十种算法，能够自动学习和识别数据中的模式和规律，从而实现对数据的高效分类。我们相信本应用将为您的机器学习项目提供很大的便利!<strong>
+            </h3>
+            <h2 id="a1" style="font-family:Arial; color:rgb(23, 23, 171)">一、快速开始</h2>
+            <h3 id="a1-1" style="font-family:Arial; color:rgb(23, 23, 171)">Step1、第一步</h3>
+            <p class="paragraph">请在下图中<span style="color: red;">红框</span>的路径下，将<span style="color: blue;">蓝框</span>中的ACGT101_ML_1.0.sh和parameters_ACGT101_ML.txt文件复制粘贴到您的路径下。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: red;">！！！请勿在红框的文件夹下修改，请复制到您的文件夹下再进行修改！！！</span></p>
+            <p class="paragraph">文件路径：/Default/cluster/person80-coseq/public1/Programs/ACGT101_ML/ACGT101_ML_1.0</p>
+            <p style="margin-left: 15%;"><img src="images\ksks1.png"></p>
+            <h3 id="a1-2" style="font-family:Arial; color:rgb(23, 23, 171)">Step2、第二步</h3>
+            <p class="paragraph">请打开复制粘贴到您路径下的parameters_ACGT101_ML.txt文件，请在<span style="color: red;">parameters_ACGT101_ML.txt</span>文件里面修改参数(参数说明可参考使用说明)，请按规则修改，否则可能造成报错！</p>
+            <p style="margin-left: 18%;"><img src="images\ksks2.png"></p>
+            <h3 id="a1-3" style="font-family:Arial; color:rgb(23, 23, 171)">Step3、第三步</h3>
+            <p class="paragraph">在Step2中调整好您的参数文件parameters_ACGT101_ML.txt后，请在命令行中cd到您的路径下(<span style="color: red;">例如下图红框命令</span>)。</p>
+            <p style="margin-left: 10%;"><img src="images\ksks3.png"></p>
+            <h3 id="a1-4" style="font-family:Arial; color:rgb(23, 23, 171)">Step4、第四步</h3>
+            <p class="paragraph">最后，在命令行中运行<span style="color: red;">sh&nbsp;ACGT101_ML_1.0.sh</span>即可完成！输出图片结果将在您路径下自动生成的Output文件夹中，而文字结果将在自动生成的log文件夹中。</p>
+            <p style="margin-left: 10%;"><img src="images\ksks4.png"></p>
+            <h3 id="a1-5" style="font-family:Arial; color:rgb(23, 23, 171)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;参数文件细则</h3>
+            <div style="width: 50%; margin-left: 25%;">
+            <div class="table-container">
+            <table>
+                
+                <thead>
+                  <tr>
+                    <th>参数ID</th>
+                    <th>默认</th>
+                    <th>范围</th>
+                    <th>示例</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>parameters_path</td>
+                    <td>NAN</td>
+                    <td>NAN</td>
+                    <td>parameters_path=/mnt/dgfs/4_After_Sales_Personal/ChenHong/parameters_ACGT101_ML.txt</td>
+                  </tr>
+                  <tr>
+                    <td>file_path</td>
+                    <td>NAN</td>
+                    <td>NAN</td>
+                    <td>file_path=/mnt/dgfs/4_After_Sales_Personal/ChenHong/Input/3a.xlsx</td>
+                  </tr>
+                  <tr>
+                    <td>test_size</td>
+                    <td>0.2</td>
+                    <td>[0.1, 0.2, 0.3, ……, 1)</td>
+                    <td>test_size= 0.2</td>
+                  </tr>
+                  <tr>
+                    <td>random_state</td>
+                    <td>420</td>
+                    <td>任意整数</td>
+                    <td>random_state=420</td>
+                  </tr>
+                  <tr>
+                    <td>select</td>
+                    <td>NAN</td>
+                    <td>[Lasso, RE, None]</td>
+                    <td>select=Lasso</td>
+                  </tr>
+                  <tr>
+                    <td>lasso_cv</td>
+                    <td>10</td>
+                    <td>任意整数</td>
+                    <td>lasso_cv=5</td>
+                  </tr>
+                  <tr>
+                    <td style="color: blue;">决策树模型参数</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>max_depth_dt</td>
+                    <td>6</td>
+                    <td>整数[3,4,5,……,15]</td>
+                    <td>max_depth_dt=6</td>
+                  </tr>
+                  <tr>
+                    <td>min_samples_split_dt</td>
+                    <td>1</td>
+                    <td>任意整数</td>
+                    <td>min_samples_split_dt=1</td>
+                  </tr>
+                  <tr>
+                    <td>min_samples_leaf_dt</td>
+                    <td>1</td>
+                    <td>任意整数</td>
+                    <td>min_samples_leaf_dt=1</td>
+                  </tr>
+                  <tr>
+                    <td style="color: blue;">K近邻模型参数</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>min_samples_leaf_dt</td>
+                    <td>distance</td>
+                    <td>[distance, uniform]</td>
+                    <td>weights=distance</td>
+                  </tr>
+                  <tr>
+                    <td style="color: blue;">XGBoost模型参数</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>min_samples_leaf_dt</td>
+                    <td>0.1</td>
+                    <td>[0.1, 0.01, 0.001, 0.0001]</td>
+                    <td>min_child_weight=0.1</td>
+                  </tr>
+                  <tr>
+                    <td>max_depth_xgb</td>
+                    <td>6</td>
+                    <td>整数[3,4,5,……,15]</td>
+                    <td>max_depth_xgb=6</td>
+                  </tr>
+                  <tr>
+                    <td>reg_alpha</td>
+                    <td>1</td>
+                    <td>0-5之间的任意实数</td>
+                    <td>reg_alpha=1</td>
+                  </tr>
+                  <tr>
+                    <td>reg_lambda</td>
+                    <td>1</td>
+                    <td>0-5之间的任意实数</td>
+                    <td>reg_lambda=1</td>
+                  </tr>
+                  <tr>
+                    <td style="color: blue;">支持向量机模型参数</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>kernel</td>
+                    <td>rbf</td>
+                    <td>[rbf,linear,sigmoid,poly]</td>
+                    <td>kernel=rbf</td>
+                  </tr>
+                  <tr>
+                    <td>C</td>
+                    <td>1.0</td>
+                    <td>0-5之间的任意实数</td>
+                    <td>C=1.0</td>
+                  </tr>
+                  <tr>
+                    <td style="color: blue;">随机森林模型参数</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>n_estimators</td>
+                    <td>100</td>
+                    <td>任意整数</td>
+                    <td>n_estimators=100</td>
+                  </tr>
+                  <tr>
+                    <td>max_depth_rf</td>
+                    <td>None</td>
+                    <td>整数[3,4,5,……,15]</td>
+                    <td>max_depth_rf=6</td>
+                  </tr>
+                  <tr>
+                    <td>min_samples_split</td>
+                    <td>2</td>
+                    <td>任意整数</td>
+                    <td>min_samples_split=2</td>
+                  </tr>
+                  <tr>
+                    <td>min_samples_leaf</td>
+                    <td>1</td>
+                    <td>任意整数</td>
+                    <td>min_samples_leaf=1</td>
+                  </tr>
+                  <tr>
+                    <td>max_features</td>
+                    <td>auto</td>
+                    <td>任意整数</td>
+                    <td>max_features=auto</td>
+                  </tr>
+                  <tr>
+                    <td style="color: blue;">GBDT模型参数</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>max_depth_gbdt</td>
+                    <td>6</td>
+                    <td>整数[3,4,5,……,15]</td>
+                    <td>max_depth_gbdt=6</td>
+                  </tr>
+                  <tr>
+                    <td>learning_rate_gbdt</td>
+                    <td>0.1</td>
+                    <td>[1,0.1,0.01,0.001]</td>
+                    <td>learning_rate_gbdt=0.1</td>
+                  </tr>
+                  <tr>
+                    <td>n_estimator_gbdt</td>
+                    <td>100</td>
+                    <td>任意整数</td>
+                    <td>n_estimator_gbdt=100</td>
+                  </tr>
+                  <tr>
+                    <td>subsample</td>
+                    <td>0.5</td>
+                    <td>[0.1,0.2,……,1)</td>
+                    <td>subsample=0.5</td>
+                  </tr>
+                  <tr>
+                    <td style="color: blue;">配置参数</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>partition</td>
+                    <td>NAN</td>
+                    <td>coseq支持的所有</td>
+                    <td>partition=all</td>
+                  </tr>
+                  <tr>
+                    <td>partition</td>
+                    <td>8</td>
+                    <td>整数[1,2,……]</td>
+                    <td>cpu=8</td>
+                  </tr>
+
+
+
+
+
+
+                </tbody>
+              </table>
+            </div>
+        </div>
+
+            <h2 id="a2" style="font-family:Arial; color:rgb(23, 23, 171)">二、分类算法介绍</h2>
+            <h3 id="a2-1" style="font-family:Arial; color:rgb(23, 23, 171)">1、决策树（Decision Trees）</h3>
+            <p class="paragraph" style="font-weight: lighter;">
+                决策树是一种常用的机器学习算法，用于解决分类和回归问题。它通过构建树状结构来建立预测模型，其中每个内部节点表示一个特征或属性，每个分支代表一个特征的取值，而每个叶节点表示一个类别或预测值。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;决策树的生成过程基于训练数据集，它通过对数据集进行递归地分割，以最小化预测误差或信息增益，从而构建一个具有良好泛化能力的模型。<span
+                    style="color: rgb(184, 23, 23);">以下是决策树算法的一般流程：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、特征选择：选择一个最佳的特征作为当前节点的分割标准。常用的特征选择指标包括信息增益、增益率、基尼系数等。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、节点分割：根据选择的特征将训练数据集分割成子集，并为当前节点创建相应的分支。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、递归构建：对每个子集递归地应用上述过程，构建子节点，直到满足停止条件，例如达到最大深度、节点包含的样本数小于阈值等。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4、叶节点标记：将叶节点标记为最常见的类别或计算平均值作为回归问题的预测值。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;决策树算法有多种变体和优化方式，其中包括ID3、C4.5、CART等。这些算法在特征选择、树的构建和剪枝等方面有所不同。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;决策树具有易于理解和解释的优点，能够处理数值型和离散型特征，以及处理缺失值的能力。然而，决策树也容易出现过拟合问题，特别是在处理复杂数据集时。为了缓解过拟合，可以使用剪枝技术、设置最大深度、限制叶节点中的最小样本数等。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;总结起来，决策树是一种强大且常用的机器学习算法，适用于分类和回归任务。它通过递归地构建树状结构来进行预测，并具有易于解释和理解的特点。
+            </p>
+            <h3 id="a2-2" style="font-family:Arial; color:rgb(23, 23, 171)">2、K近邻（K-Nearest Neighbors）</h3>
+            <p class="paragraph" style="font-weight: lighter;">K近邻（K-Nearest
+                Neighbors，简称KNN）是一种常用的机器学习算法，用于分类和回归问题。KNN算法基于实例之间的距离度量进行预测和分类。它的核心思想是，如果一个样本的邻近样本中大多数属于某个类别，那么该样本很可能属于该类别。
+                <br><span style="color: rgb(184, 23, 23);">KNN算法的工作原理如下：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 训练阶段：将训练样本集中的特征向量和类别标签存储起来，构建一个特征空间。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. 预测阶段：当接收到一个新的样本时，计算该样本与训练样本集中所有样本之间的距离。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. 选择K值：选择一个合适的K值，它表示用于决策的最近邻样本的数量。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. K个最近邻样本：从训练样本集中选择距离最近的K个样本。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.
+                多数表决：根据K个最近邻样本的类别标签，通过多数表决的方式确定新样本的类别。在分类问题中，选择K个样本中最常见的类别作为新样本的类别。在回归问题中，选择K个样本的平均值作为新样本的预测值。
+                <br><span style="color: rgb(184, 23, 23);">KNN算法的特点和注意事项：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- KNN算法对于训练集中的异常值敏感，因为它的预测结果是基于邻近样本的多数表决。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- KNN算法的计算复杂度较高，特别是当训练样本集很大时，需要计算大量的距离。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 选择合适的K值对KNN算法的性能影响很大。较小的K值可能会导致过拟合，而较大的K值可能会导致欠拟合。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 在应用KNN算法之前，通常需要对数据进行归一化处理，以确保不同特征对距离计算的影响相同。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                KNN算法可以用于分类问题和回归问题。对于分类问题，使用KNN算法进行预测时，新样本被分配给最常见的类别。对于回归问题，使用KNN算法进行预测时，新样本的预测值是K个最近邻样本的平均值。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KNN算法是一种简单而强大的算法，在许多实际问题中都有广泛的应用。它不需要训练过程，具有较少的假设，并且可以适应不同类型的数据。然而，KNN算法的性能也受到训练样本规模、特征选择和距离度量等因素的影响，因此在应用时需要谨慎选择参数和进行适当的数据处理。
+            </p>
+            <h3 id="a2-3" style="font-family:Arial; color:rgb(23, 23, 171)">3、逻辑回归（Logistic Regression）</h3>
+            <p class="paragraph" style="font-weight: lighter;">逻辑回归（Logistic
+                Regression）是一种常用的机器学习算法，用于解决二分类问题。尽管名字中带有"回归"，但逻辑回归实际上是一种分类算法，用于预测样本属于两个类别中的哪一个。
+                <br><span style="color: rgb(184, 23, 23);">逻辑回归的工作原理如下：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 数据表示：逻辑回归使用特征向量表示输入样本，每个特征都有相应的权重。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.假设函数：逻辑回归使用一个称为"逻辑函数"或"sigmoid函数"的函数来建立一个连续的预测函数。该函数将输入的特征向量映射到一个介于0和1之间的概率值，表示样本属于某个类别的概率。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. 模型训练：逻辑回归使用最大似然估计（Maximum Likelihood Estimation）方法来估计模型的参数。通过迭代算法（例如梯度下降法），逐步优化模型的权重值，使其能够更好地拟合训练数据，最大化似然函数。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.决策边界：根据训练得到的模型参数，可以确定一个决策边界，将样本分为两个类别。通常，当概率大于或等于0.5时，将样本分类为正类别(1),否则分类为负类别(0)。
+                <br><span style="color: rgb(184, 23, 23);">逻辑回归的特点和注意事项： </span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 逻辑回归是一种线性模型，尽管它可以处理非线性关系，但需要进行特征工程或使用多项式特征来扩展特征空间。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 逻辑回归对异常值比较敏感，因为它使用的是最大似然估计方法，异常值可能会对模型的训练产生较大影响。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 逻辑回归可以输出概率值，可以根据需要设置阈值来进行二分类，例如0.5作为默认阈值。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 逻辑回归可以扩展到多类别分类问题，通过一对多（One-vs-Rest）或多项式逻辑回归的方式进行处理。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 特征选择、归一化和正则化等技术可以应用于逻辑回归，以提高模型的性能和泛化能力。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;逻辑回归是一种简单而有效的分类算法，广泛应用于许多领域，例如医学、金融、自然语言处理等。它的优点包括模型简单、计算效率高、可解释性强，并且可以提供概率输出。然而，逻辑回归也有一些限制，例如对非线性关系的建模能力有限。在实际应用中，根据问题的特点和数据的性质，需要综合考虑逻辑回归的适用性以及其他更复杂的模型选择。
+            </p>
+            <h3 id="a2-4" style="font-family:Arial; color:rgb(23, 23, 171)">4、随机森林（Random Forests）</h3>
+            <p class="paragraph" style="font-weight: lighter;">随机森林（Random
+                Forest）是一种集成学习算法，用于解决分类和回归问题。它结合了决策树和随机性的特点，通过构建多个决策树并对它们的结果进行综合来进行预测。
+                <br><span style="color: rgb(184, 23, 23);">随机森林的算法步骤如下：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.数据采样：从原始数据集中随机选择一部分样本（有放回地抽样），构成一个新的训练集，这个过程被称为"自助采样"（Bootstrap Sampling）。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.特征随机选择：对于每个决策树的节点，在特征集中随机选择一部分特征进行评估，而不是使用全部特征。这个过程被称为"特征随机选择"（Feature Randomness）。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.决策树构建：基于上述采样的训练集和特征集，构建一棵决策树。决策树的构建可以使用常见的决策树算法，如CART（Classification and Regression Trees）算法。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. 多个决策树的集成：重复步骤2和步骤3，构建多棵决策树。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.预测：对于分类问题，通过对所有决策树的结果进行投票（多数表决）或求平均来确定最终的预测类别。对于回归问题，通过对所有决策树的结果求平均来得到最终的预测值。
+                <br><span style="color: rgb(184, 23, 23);">随机森林的特点和注意事项：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 随机森林通过集成多个决策树的结果，可以减少过拟合，并提高模型的泛化能力。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 随机森林可以处理大规模数据集，具有较好的计算效率。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 随机森林不需要对数据进行特征缩放或归一化，因为决策树对特征的缩放不敏感。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 随机森林可以评估特征的重要性，通过测量每个特征在构建决策树过程中的贡献度来衡量。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 随机森林的参数包括决策树的数量、决策树的深度、特征随机选择的方式等，需要进行适当的调参来优化模型性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;随机森林是一种强大而灵活的机器学习算法，在许多实际问题中都有广泛的应用。它在处理高维数据、处理缺失值和异常值等方面表现良好，并且对于非线性关系的建模能力较强。然而，随机森林的结果不太容易解释，而且对于噪声较大的数据集可能会过拟合。在实际应用中，根据问题的特点和数据的性质，需要综合考虑随机森林的适用性以及其他集成学习算法的选择。
+            </p>
+            <h3 id="a2-5" style="font-family:Arial; color:rgb(23, 23, 171)">5、支持向量机（Support Vector Machines）</h3>
+            <p class="paragraph" style="font-weight: lighter;">支持向量机（Support Vector
+                Machine，简称SVM）是一种常用的监督学习算法，用于解决分类和回归问题。它的目标是找到一个最优的超平面，将不同类别的样本分隔开，同时最大化样本与超平面之间的间隔。
+                <br><span style="color: rgb(184, 23, 23);">支持向量机的算法步骤如下：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 数据表示：将输入样本表示为特征向量的集合，每个特征都有相应的权重。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.
+                寻找最优超平面：SVM的目标是找到一个能够最大化间隔的超平面，将不同类别的样本分隔开。超平面可以通过一个线性方程来表示：w·x + b = 0，其中w是法向量（超平面的方向），b是截距（超平面与原点的距离）。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. 支持向量：在样本空间中，离超平面最近的一些样本点被称为"支持向量"，它们决定了超平面的位置和间隔大小。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.
+                核技巧：SVM可以使用核函数来处理非线性可分的问题。核函数能够将样本从原始特征空间映射到一个更高维的特征空间，使得样本在高维空间中线性可分。常用的核函数包括线性核、多项式核和高斯核等。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.
+                软间隔和正则化：在实际问题中，数据往往不是完全线性可分的，为了允许一些样本点位于超平面的错误一侧，可以引入"软间隔"的概念。同时，为了避免过拟合，SVM引入了正则化项来平衡间隔和错误分类的惩罚。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.
+                模型训练和预测：SVM的训练过程是通过求解一个凸优化问题来得到最优的超平面参数。一旦模型训练完成，可以使用训练得到的超平面进行新样本的分类预测。
+                <br><span style="color: rgb(184, 23, 23);">支持向量机的特点和注意事项：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- SVM适用于处理小样本、高维度和非线性可分的问题。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- SVM对于异常值的鲁棒性较强，因为它主要依赖于支持向量而不是整个数据集。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- SVM的模型参数包括核函数的选择、正则化参数的设置等，需要进行适当的调参来优化模型性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- SVM的结果具有较好的泛化能力，并且在训练过程中不会陷入局部最优解。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                SVM可以用于二分类问题和多分类问题，通过一对一（One-vs-One）或一对多（One-vs-Rest）的策略进行处理。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;支持向量机是一种强大而灵活的机器学习算法，已经在许多领域取得了成功应用，例如图像分类、文本分类、生物信息学等。然而，SVM的计算复杂度较高，在处理大规模数据集时可能会受到限制。在实际应用中，根据问题的特点和数据的性质，需要综合考虑支持向量机的适用性以及其他分类算法的选择。
+            </p>
+            <h3 id="a2-6" style="font-family:Arial; color:rgb(23, 23, 171)">6、线性判别分析（Linear Discriminant Analysis）</h3>
+            <p class="paragraph" style="font-weight: lighter;">线性判别分析（Linear Discriminant Analysis，简称LDA）是一种经典的监督学习算法，用于解决分类问题和降维问题。它通过在保持类别间距离最大和类内方差最小的条件下，将样本投影到低维空间进行分类或表示。
+                <br><span style="color: rgb(184, 23, 23);">线性判别分析的算法步骤如下：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 数据表示：将输入样本表示为特征向量的集合，每个样本都有相应的类别标签。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. 类别间散度矩阵：计算不同类别之间的散度矩阵（Between-Class Scatter
+                Matrix），用于度量不同类别之间的差异。散度矩阵可以通过计算每个类别的均值向量和整体均值向量之间的差异得到。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. 类别内散度矩阵：计算同一类别内部的散度矩阵（Within-Class Scatter
+                Matrix），用于度量同一类别内样本的分布。散度矩阵可以通过计算每个类别内部样本与该类别均值向量之间的差异得到。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.
+                特征向量计算：通过求解散度矩阵的广义特征值问题，得到特征向量。特征向量与特征值相关联，特征向量表示了数据在新的低维空间中的投影方向，而特征值表示了该投影方向上的方差。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.
+                降维或分类：选择最大的特征值对应的特征向量，将样本数据投影到该特征向量所表示的低维空间中。对于分类问题，可以使用投影后的样本进行分类。
+                <br><span style="color: rgb(184, 23, 23);">线性判别分析的特点和注意事项：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                LDA可以用于分类问题和降维问题。在分类问题中，LDA试图找到一个最佳的投影方向，使得不同类别之间的距离最大化；在降维问题中，LDA通过投影保留了最大的类别间差异，同时最小化了类别内部的方差。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- LDA假设数据服从高斯分布，因此在应用LDA之前需要对数据进行预处理，例如去除异常值、正态化等。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- LDA是一种有监督学习算法，因此需要有标记的训练数据。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- LDA的计算复杂度较低，适用于处理大规模数据集。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- LDA的结果较容易解释，并且在样本量较大时表现良好。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;线性判别分析是一种经典而有效的机器学习算法，已经在许多实际问题中取得了广泛应用，例如人脸识别、手写数字识别等。然而，LDA对于数据分布的假设要求较高，当数据不满足高斯分布假设时，可能会导致结果不准确。在实际应用中，根据问题的特点和数据的性质，需要综合考虑线性判别分析的适用性以及其他分类和降维算法的选择。
+            </p>
+            <h3 id="a2-7" style="font-family:Arial; color:rgb(23, 23, 171)">7、高斯朴素贝叶斯（Gaussian Naive Bayes）</h3>
+            <p class="paragraph" style="font-weight: lighter;">高斯朴素贝叶斯（Gaussian Naive Bayes）是朴素贝叶斯分类器的一种常见变体，用于解决分类问题。它基于贝叶斯定理和特征之间的独立性假设，通过计算样本在每个类别下的后验概率来进行分类。
+                <br><span style="color: rgb(184, 23, 23);">高斯朴素贝叶斯的算法步骤如下：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 数据表示：将输入样本表示为特征向量的集合，每个特征都有相应的取值。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.
+                参数估计：对于每个特征，计算每个类别下的均值和方差。假设特征在每个类别下服从高斯分布，通过计算每个类别下的样本特征值的均值和方差来估计高斯分布的参数。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. 计算先验概率：计算每个类别的先验概率，即在没有任何特征信息的情况下，样本属于每个类别的概率。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.
+                计算后验概率：对于给定的样本，根据贝叶斯定理计算样本在每个类别下的后验概率。后验概率表示了在给定特征下，样本属于每个类别的概率。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5. 分类决策：选择具有最高后验概率的类别作为样本的预测类别。
+                <br><span style="color: rgb(184, 23, 23);">高斯朴素贝叶斯的特点和注意事项：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 高斯朴素贝叶斯是一种简单而快速的分类算法，对于高维数据和大规模数据集具有较好的扩展性。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                高斯朴素贝叶斯假设特征在每个类别下服从独立的高斯分布，这是一个较强的假设。如果特征之间存在相关性，则可能导致分类性能下降。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 高斯朴素贝叶斯对于缺失数据的处理较为简单，可以通过忽略缺失值来进行分类。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 高斯朴素贝叶斯适用于处理连续特征的分类问题，不适用于处理离散特征。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 高斯朴素贝叶斯在一些实际应用中表现良好，例如文本分类、垃圾邮件过滤等。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高斯朴素贝叶斯是一种简单而有效的机器学习算法，尤其适用于处理文本和自然语言处理等领域的分类问题。然而，由于独立性假设的限制，它可能无法捕捉特征之间的复杂关系。在实际应用中，根据问题的特点和数据的性质，需要综合考虑高斯朴素贝叶斯的适用性以及其他分类算法的选择。
+            </p>
+            <h3 id="a2-8" style="font-family:Arial; color:rgb(23, 23, 171)">8、梯度提升决策树（GBDT,Gradient Boosting Decision Trees）</h3>
+            <p class="paragraph" style="font-weight: lighter;">GBDT（Gradient Boosting Decision
+                Trees）是一种集成学习方法，通过迭代训练决策树模型来提高预测性能。它采用梯度提升的策略，每一轮迭代都试图减小损失函数的梯度，从而逐步优化模型的预测能力。
+                <br><span style="color: rgb(184, 23, 23);">GBDT的算法步骤如下：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 初始化：将所有样本的权重初始化为相等值，构建一个初始的弱分类器（通常是决策树）作为基础模型。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. 迭代训练：依次迭代以下步骤直到满足停止条件：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                计算残差：根据当前模型的预测结果和真实标签计算每个样本的残差，残差表示当前模型对样本的预测误差。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 拟合残差：使用一个新的弱分类器来拟合残差，通过最小化损失函数来优化弱分类器的参数。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 更新模型：将新的弱分类器加入到模型中，通过更新模型的预测结果。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                更新样本权重：根据残差的大小调整样本的权重，将对当前模型预测不准确的样本赋予较高的权重，以便下一轮迭代更关注这些样本。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. 停止条件：可以根据预先设定的迭代次数、模型性能的收敛等条件来决定停止迭代。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. 得到最终模型：将所有迭代得到的弱分类器组合起来，得到最终的强分类器模型。
+                <br><span style="color: rgb(184, 23, 23);">GBDT的特点和注意事项：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- GBDT是一种集成学习方法，通过将多个弱分类器组合成一个强分类器来提高预测性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- GBDT采用梯度提升的策略，每一轮迭代都试图减小损失函数的梯度，从而逐步优化模型的预测能力。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- GBDT能够自动处理特征间的非线性关系和特征间的交互作用。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- GBDT对于异常值和噪声数据比较敏感，需要进行数据预处理和异常值处理。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- GBDT的训练过程是串行的，每一轮迭代都依赖于前一轮的结果，因此无法并行化处理。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- GBDT在处理高维稀疏数据时可能会遇到性能和内存消耗的问题，可以采用特征选择或降维等方法来解决。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GBDT是一种强大的机器学习算法，已经在很多实际问题中取得了良好的效果，例如点击率预测、推荐系统等。然而，GBDT也有一些限制，如对大规模数据集的处理速度较慢，对异常值和噪声数据较敏感等。在实际应用中，根据问题的特点和数据的性质，需要综合考虑GBDT的适用性以及其他集成学习算法的选择。
+            </p>
+            <h3 id="a2-9" style="font-family:Arial; color:rgb(23, 23, 171)">9、XGBoost（eXtreme Gradient Boosting）</h3>
+            <p class="paragraph" style="font-weight: lighter;">XGBoost（eXtreme Gradient
+                Boosting）是一种优秀的集成学习算法，基于梯度提升框架，旨在提高模型的预测性能。XGBoost在GBDT的基础上进行了一系列优化和改进，具有更高的性能和可扩展性。
+                <br><span style="color: rgb(184, 23, 23);">XGBoost的算法步骤如下：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 初始化：将所有样本的权重初始化为相等值，构建一个初始的弱分类器（通常是决策树）作为基础模型。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. 迭代训练：依次迭代以下步骤直到满足停止条件：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                计算损失函数的梯度和二阶导数：根据当前模型的预测结果和真实标签计算每个样本的一阶梯度和二阶梯度，用于近似损失函数的形状。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                构建新的弱分类器：使用一种近似的贪心算法，结合一阶梯度和二阶梯度来构建新的弱分类器，并通过最小化损失函数来优化弱分类器的参数。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 更新模型：将新的弱分类器加入到模型中，通过更新模型的预测结果。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 正则化：为了防止过拟合，引入正则化项对模型进行约束，包括树的复杂度惩罚和样本权重的调整。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                更新样本权重：根据残差的大小调整样本的权重，将对当前模型预测不准确的样本赋予较高的权重，以便下一轮迭代更关注这些样本。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. 停止条件：可以根据预先设定的迭代次数、模型性能的收敛等条件来决定停止迭代。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. 得到最终模型：将所有迭代得到的弱分类器组合起来，得到最终的强分类器模型。
+                <br><span style="color: rgb(184, 23, 23);">XGBoost的特点和注意事项：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- XGBoost是一种高效、灵活且可扩展的梯度提升算法，具有较高的预测性能和计算效率。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                XGBoost采用了一系列优化策略，如加权的分位数损失函数、近似的贪心算法、正则化项等，提升了模型的准确性和鲁棒性。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- XGBoost支持处理各种类型的特征，包括连续特征和离散特征，并能够自动处理缺失值。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- XGBoost具有良好的可解释性，可以提供特征重要性评估和模型解释等功能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- XGBoost在大规模数据集和高维特征空间下仍然能够表现出色，且支持并行化处理。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- XGBoost对于异常值和噪声数据相对较稳健，但仍建议进行数据预处理和异常值处理。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XGBoost在许多机器学习竞赛和实际应用中都取得了优秀的性能，例如点击率预测、推荐系统、金融风控等。它具有广泛的应用领域和强大的预测能力。在实际应用中，根据问题的特点和数据的性质，XGBoost往往是一个值得尝试的强大工具。
+            </p>
+            <h3 id="a2-10" style="font-family:Arial; color:rgb(23, 23, 171)">10、自适应增强算法（AdaBoost）</h3>
+            <p class="paragraph" style="font-weight: lighter;">AdaBoost（Adaptive
+                Boosting）是一种集成学习算法，通过迭代训练一系列弱分类器来构建一个强分类器。AdaBoost的核心思想是对训练样本进行加权，关注那些分类错误的样本，并调整分类器的权重，使得分类器能够更关注分类错误的样本，从而提高整体分类性能。
+                <br><span style="color: rgb(184, 23, 23);">AdaBoost的算法步骤如下：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 初始化样本权重：将所有样本的权重初始化为相等值，构建一个初始的弱分类器（通常是决策树）作为基础模型。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. 迭代训练：依次迭代以下步骤直到满足停止条件：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 训练弱分类器：使用当前样本权重训练一个弱分类器，弱分类器的目标是最小化加权错误率。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 计算弱分类器的权重：根据弱分类器的分类误差率计算其权重，误差率越低的分类器权重越大。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-
+                更新样本权重：根据弱分类器的分类结果调整样本的权重，将分类错误的样本权重增加，正确分类的样本权重减小。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 归一化样本权重：将样本权重归一化，使其总和为1。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. 结合弱分类器：通过加权投票的方式将所有弱分类器组合成一个强分类器，强分类器的预测结果由各个弱分类器的权重决定。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. 停止条件：可以根据预先设定的迭代次数、模型性能的收敛等条件来决定停止迭代。
+                <br><span style="color: rgb(184, 23, 23);">AdaBoost的特点和注意事项：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- AdaBoost是一种迭代的集成学习算法，通过加权训练和组合多个弱分类器来构建一个强分类器。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- AdaBoost在每一轮迭代中关注分类错误的样本，通过调整样本权重和分类器权重来提高分类性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- AdaBoost对于异常值和噪声数据相对较敏感，需要进行数据预处理和异常值处理。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- AdaBoost在处理高维稀疏数据时需要注意性能和内存消耗的问题，可以采用特征选择或降维等方法来解决。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- AdaBoost的性能与弱分类器的质量有关，通常选择简单且性能稍好的弱分类器作为基础模型。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- AdaBoost可以用于二分类和多分类任务，并可扩展到回归问题（称为AdaBoost.R2）。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AdaBoost是一种经典的集成学习算法，已经在许多实际问题中取得了良好的效果，如人脸检测、物体识别、文本分类等。它具有较高的预测准确性和一定的抗噪能力。在实际应用中，根据问题的特点和数据的性质，可以考虑使用AdaBoost作为一个强大的分类器。
+            </p>
+            <h2 id="a3" style="font-family:Arial; color:rgb(23, 23, 171)">三、APP流程</h2>
+            <p style="margin-left: 9%;"><img src="images\lct.png"></p>
+            <h3 id="a3-1" style="font-family:Arial; color:rgb(23, 23, 171)">Step1、数据导入</h3>
+            <p class="paragraph" style="font-weight: lighter;">在参数文件中（parameters.txt）的<span
+                    style="color: rgb(184, 23, 23);">file_path</span>输入数据集的路径，即可导入数据集。选择您的数据文件，并确保数据格式正确。支持文件类型：csv、txt、excel、pickle(行为样本，列为特征，第一列为样本名(不支持没有)，第一行为特征名(不支持没有，且如果绘制lasso相关的图时，不可设置为中文)，最后一列为标签)。
+            此外，您需要在参数文件(parameters.txt)中的<span style="color: rgb(184, 23, 23);">parameters_path</span>输入您的参数文件的路径，否则您的参数将读不进去导致报错！</p>
+            <p class="paragraph">示例参数：<span style="color: rgb(184, 23, 23);">file_path=/path/to/your/file.csv
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameters_path=/public23/4_After_Sales_Personal/your_file/scripts/parameters.txt</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;示例数据如下图：
+            </p>
+            <p class="center"><a title="Waxroll835727" href="images\download.png" class="img-toggle"><img
+                        src="images\download.png"></a></p>
+            <h3 id="a3-2" style="font-family:Arial; color:rgb(23, 23, 171)">Step2、数据处理</h3>
+            <p class="paragraph" style="font-weight: lighter;">只需要保证数据集<span
+                    style="color: rgb(184, 23, 23);">无缺失值</span>即可，应用会自动对数据集进行归一化处理，消除特征间的量纲差异，提高模型的收敛速度、稳定性和性能。方法为最小-最大缩放（Min-Max
+                Scaling）：将数据线性转换到指定的最小值和最大值之间的区间。</p>
+            <h3 id="a3-3" style="font-family:Arial; color:rgb(23, 23, 171)">Step3、预训练</h3>
+            <p class="paragraph" style="font-weight: lighter;">
+                预训练（Pretraining）是一种机器学习中的技术，它通过在大规模数据上进行初始训练，得到一个具有良好初始化参数的模型，然后将该模型作为后续任务的起点进行微调或进一步训练。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在此步骤中，不需要输入任何参数，在导入数据集后应用会把所有的数据放入所有的模型进行训练并进行5次交叉验证，自动输出5次模型的准确率及其平均值，并自动用准确率最高的模型进行接下来的任务。
+            </p>
+            <h3 id="a3-4" style="font-family:Arial; color:rgb(23, 23, 171)">Step4、特征选择</h3>
+            <p class="paragraph" style="font-weight: lighter;">特征选择（Feature
+                Selection）是指从原始特征集合中选择一部分最具有代表性和相关性的特征，以提高机器学习模型的性能和泛化能力。特征选择的目的是减少特征空间的维度，去除冗余和噪音特征，同时保留对目标变量有重要影响的特征。
+                <br><span style="color: rgb(184, 23, 23);">常见的特征选择方法包括：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.过滤式选择（Filter
+                Methods）：该方法通过在特征和目标变量之间进行统计相关性分析来选择特征。常用的统计指标包括互信息、相关系数、卡方检验等。过滤式选择独立于具体的学习算法，可以在特征选择和模型训练之间独立进行。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.包裹式选择（Wrapper
+                Methods）：该方法将特征选择看作是一个搜索问题，通过尝试不同的特征子集并使用机器学习模型进行评估，来确定最佳的特征子集。包裹式选择的计算开销较大，但可以更准确地选择特征。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.嵌入式选择（Embedded
+                Methods）：该方法将特征选择与模型训练过程相结合，通过在模型训练过程中学习特征的权重或系数，来选择最佳的特征子集。常见的嵌入式选择方法包括L1正则化（L1
+                regularization）、决策树的特征重要性等。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在本应用中，根据数据集的分布，以及您的需求在参数文件中(parameters.txt)的<span
+                    style="color: rgb(184, 23, 23);">select</span>可选择适合的方法<span
+                    style="color: rgb(184, 23, 23);">(Lasso、RE、None)</span>进行特征筛选以达到降维的目的。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">select=Lasso</span>时，则选择lasso回归进行特征筛选，可根据需求设定交叉验证参数<span
+                    style="color: rgb(184, 23, 23);">lasso_cv</span>(默认为5)，应用会自动判断最优的阈值，进而实现特征筛选以达到目标效果，此外应用自动绘制<span
+                    style="color: rgb(184, 23, 23);">岭迹图和Alpha交叉验证图</span>以及所筛选出的特征的<span
+                    style="color: rgb(184, 23, 23);">特征重要性图</span>；
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">select=RE</span>时，则选择(支持向量机+随机森林)递归特征消除法，应用自动学习最佳的特征个数，并绘制其<span
+                    style="color: rgb(184, 23, 23);">学习曲线图</span>；
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当特征量较少时，则可将<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">select=None</span>，不进行特征筛选，将所有的特征放入模型进行训练。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">select=Lasso
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lasso_cv=5</span>
+            </p>
+            <p class="paragraph">当select=Lasso时所绘制图像如下：</p>
+            <p class="paragraph" style="font-weight: lighter;"><span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">岭迹图</span>：岭迹图（Ridge Trace Plot）是用于岭回归（Ridge
+                Regression）模型的可视化工具。岭回归是一种用于处理多重共线性（multicollinearity）问题的线性回归方法，它通过引入正则化项来稳定回归系数估计。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在岭回归中，正则化项的强度由超参数λ（lambda）控制。岭迹图显示了不同λ值下回归系数的变化情况，帮助我们理解正则化对回归系数的影响。岭迹图通常具有以下特征：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--x轴：表示λ的取值范围。λ通常从很小的值开始逐渐增大，覆盖一定的范围。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--y轴：表示回归系数的值。每个回归系数都有一个曲线，代表在不同λ下的估计值。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--曲线的变化：随着λ的增加，回归系数逐渐收缩到零。较大的λ会导致更强的正则化效果，使回归系数逼近于零。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--岭迹图上的每条曲线：代表一个特征（自变量）。通过观察曲线的变化，可以判断特征的重要性和对回归模型的影响。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过岭迹图，我们可以选择一个合适的λ值来平衡模型的偏差和方差。较小的λ可能会导致过拟合，较大的λ可能会导致欠拟合。通过观察岭迹图，我们可以根据回归系数的变化情况来选择一个合适的正则化参数λ，以得到较好的模型性能。
+            </p>
+            <p class="center"><img src="images\lasso_path.jpg" style="width: 600px; height: 400px;"></p>
+            <p class="paragraph" style="font-weight: lighter;"><span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">Alpha交叉验证图</span>：Alpha交叉验证图（Alpha
+                Cross-Validation
+                Plot）是用于选择Lasso回归模型中正则化强度参数α的一种可视化工具。在Lasso回归中，α是正则化项的系数，用于控制正则化的强度。Alpha交叉验证图通过显示不同α值下的交叉验证性能，帮助选择最佳的α值。具体的Alpha交叉验证图通常具有以下特征：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--x轴：表示Lasso模型的α值取值范围。α值通常是在0到1之间的连续变量。较小的α值表示较强的正则化，可以使得更多的系数为零，从而实现特征选择。较大的α值则表示较弱的正则化，允许更多的系数不为零。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--y轴：表示交叉验证的性能指标，例如均方误差（Mean Squared
+                Error）或交叉验证误差（Cross-Validation Error）。该指标用于衡量模型在不同α值下的预测性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--曲线或折线图：Alpha交叉验证图会绘制不同α值下的交叉验证性能。每个α值对应一个点或折线，其位置表示α的取值，而性能指标的值表示模型在该α值下的预测性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--最佳α值：交叉验证图可以帮助我们找到使性能指标最佳的α值。一般来说，我们希望选择性能指标最小化或最大化的α值作为最佳选择。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过观察Alpha交叉验证图，我们可以选择一个合适的α值，以获得在验证集上最优的模型性能。较小的α值可以促使模型更加稀疏，进行特征选择，而较大的α值可以允许更多的系数不为零，提高模型的灵活性。
+            </p>
+            <p class="center"><img src="images\lasso_cv.jpg" style="width: 600px; height: 400px;"></p>
+            <p class="paragraph" style="font-weight: lighter;"><span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">Lasso特征重要性图</span>：用于显示Lasso回归模型中各个特征的重要性或系数大小。Lasso回归是一种线性模型，通过引入L1正则化来实现特征选择和降维。Lasso特征重要性图通常具有以下特征：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--x轴：表示各个特征的编号或名称。每个特征对应一个柱状条或点。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--y轴：表示特征的重要性或系数大小。重要性值可以是绝对值形式的系数，用于衡量特征对模型预测的影响程度。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--柱状图或散点图：Lasso特征重要性图可以以柱状图或散点图的形式显示各个特征的重要性。每个柱状条或点的高度或位置表示对应特征的重要性大小。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过观察Lasso特征重要性图，我们可以直观地了解各个特征对Lasso回归模型的重要性。较高的重要性值表示该特征对模型的预测起着重要作用，而较低的重要性值则表示该特征对模型的预测影响较小。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lasso特征重要性图有助于进行特征选择和解释模型的预测结果。我们可以根据特征重要性的大小来确定哪些特征对于模型的预测是关键的，从而进行特征筛选或优化模型。此外，特征重要性图还可以用于解释模型的预测结果，帮助我们理解模型对不同特征的依赖程度。
+            </p>
+            <p class="center"><img src="images\select_lasso.jpg" style="width: 500px; height: 500px;"></p>
+
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">select=RE</span></p>
+            <p class="paragraph">当select=RE时所绘制图像如下：</p>
+            <p class="paragraph" style="font-weight: lighter;"><span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">递归特征消除法寻找最佳特征数学习曲线图</span>：递归特征消除法（Recursive
+                Feature Elimination,
+                RFE）是一种特征选择方法，用于通过逐步剔除不重要的特征来找到最佳的特征子集。学习曲线图可用于可视化RFE过程中不同特征数量与模型性能之间的关系。学习曲线图通常具有以下特征：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--x轴：表示特征数量。从一个特征数为1开始，直到所有的特征数为止。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--y轴：表示模型性能指标，例如准确率、均方误差（Mean Squared
+                Error）等，本应用中使用准确率。该指标用于衡量模型在不同特征数量下的性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--曲线图：学习曲线图会绘制不同特征数量下的模型性能。每个特征数量对应一个点或折线，其位置表示特征数量，而性能指标的值表示模型在该特征数量下的性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过观察学习曲线图，我们可以了解特征数量与模型性能之间的关系。随着特征数量的减少，模型性能可能会有所变化。学习曲线图可以帮助我们找到特征数量的最佳取值，以获得在验证集或交叉验证中最佳的模型性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在RFE过程中，我们会逐步剔除不重要的特征，并观察模型性能的变化。学习曲线图可以显示每个特征数量下的模型性能，帮助我们选择最佳的特征数量。通常，我们会选择性能最优的特征数量作为最佳选择。
+            </p>
+            <p style="margin-left: 10%;margin-bottom: 0%;"><img src="images\randomforest_features_curve.jpg"
+                    style="width: 900px; height: 300px;"></p>
+            <p style="margin-left: 10%;margin-top: 0%;"><img src="images\SVM_features_curve.jpg"
+                    style="width: 900px; height: 300px;"></p>
+
+
+            <h3 id="a3-5" style="font-family:Arial; color:rgb(23, 23, 171)">Step5、训练集、测试集的划分</h3>
+            <p class="paragraph" style="font-weight: lighter;">在参数文件中（parameters.txt）的<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">test_size</span>可设置测试集的比例，默认为0.2，意味着测试集比例为0.2，训练集比例为0.8，也可根据需求设置。<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">范围是0-1之间</span>。</p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">test_size=0.2</span></p>
+            <p class="paragraph" style="font-weight: lighter;">除此之外，应用还提供参数<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">random_state</span>设置，可随机设置其值，目的是让其不会随机划分训练集和测试集，以确保模型的可重复性，也可不断的修改其值，以实现让模型训练到最佳的训练集。值应为<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">任意整数</span>。</p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">random_state=420</span>
+            </p>
+
+            <h3 id="a3-6" style="font-family:Arial; color:rgb(23, 23, 171)">Step6、模型构建</h3>
+            <p class="paragraph" style="color:#337ab7">
+                本应用一共提供十种机器学习模型，包括随机森林、支持向量机、决策树、线性判别分析、逻辑回归、高斯朴素贝叶斯、K近邻、XGBoost、GBDT、ADABoost。在本应用中，是自动选择预训练中准确率最高的模型进行建模，无需手动选择，但是不同的模型有不同的参数，您可根据需求设置模型参数，如果不设置则根据默认参数进行建模。
+            </p>
+            <h4 id="a3-6-1">1.决策树（Decision Trees）</h4>
+            <p class="paragraph">参数详解</p>
+            <p class="paragraph" style="font-weight: lighter;">1.最大深度（max_depth_dt）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 max_depth_dt，默认为6。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：指定决策树的最大深度，即从根节点到叶节点的最长路径长度。较大的最大深度可以使模型更复杂，但也容易导致过拟合。较小的最大深度可以限制模型的复杂度，提高泛化能力。可以根据数据集的大小和复杂性选择合适的最大深度。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">2.最小样本拆分数（min_samples_split_dt）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 min_samples_split_dt，默认为1。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：指定进行节点拆分所需的最小样本数。如果一个节点的样本数少于最小样本拆分数，则不会进行拆分。较大的最小样本拆分数可以防止过拟合，但可能导致模型欠拟合。可以根据数据集的大小和样本分布选择合适的最小样本拆分数。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">3.最小叶节点样本数（min_samples_leaf_dt）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 min_samples_leaf_dt，默认为1。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：指定每个叶节点所需的最小样本数。如果一个叶节点的样本数少于最小叶节点样本数，则不会进行进一步的拆分。较大的最小叶节点样本数可以防止过拟合，但可能导致模型欠拟合。可以根据数据集的大小和样本分布选择合适的最小叶节点样本数。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">max_depth_dt=6
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min_samples_split_dt=1
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min_samples_leaf_dt=1</span>
+            </p>
+            <h4 id="a3-6-2">2.K近邻（K-Nearest Neighbors）</h4>
+            <p class="paragraph">参数详解</p>
+            <p class="paragraph" style="font-weight: lighter;">权重函数（weights）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 weights，默认为distance，其余可填（uniform,distance）。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：指定用于预测的邻居样本的权重计算方式。常见的权重函数包括均匀权重（uniform）和距离加权权重（distance）。均匀权重表示所有邻居样本具有相同的权重，距离加权权重表示邻居样本的权重与其距离的倒数成正比。根据问题的特点，可以选择合适的权重函数。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">weights=distance</span>
+            </p>
+            <h4 id="a3-6-3">3.逻辑回归（Logistic Regression）</h4>
+            <p class="paragraph" style="font-weight: lighter;">在使用逻辑回归算法时，通常不需要过多地进行参数调整的原因如下：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.简单性和效果：逻辑回归是一种相对简单的分类算法，其默认参数通常能够在许多情况下给出合理的结果。默认参数已经经过广泛的测试和调整，适用于许多常见的分类问题。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.鲁棒性：逻辑回归对于某些参数的选择相对不敏感。例如，截距项和类别权重通常不需要显式调整，因为逻辑回归可以自动学习这些信息。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.过拟合风险：过度调整参数可能会导致过拟合，即模型在训练数据上表现良好，但在未见过的测试数据上表现较差。因此，过多地调整参数可能会导致模型过于复杂，无法泛化到新的数据。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一般来说，逻辑回归的默认参数通常能够提供合理的结果，因此不需要过多地进行参数调整。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">无需调参</span></p>
+            <h4 id="a3-6-4">4.随机森林（Random Forests）</h4>
+            <p class="paragraph">参数详解</p>
+            <p class="paragraph" style="font-weight: lighter;">1.树的数量（n_estimators）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 n_estimators，默认为100。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：确定随机森林中包含的决策树数量。较大的值可以提高模型的性能，但会增加计算成本。一般来说，增加树的数量可以减少模型的方差，但也会增加模型的复杂性和训练时间。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">2.树的最大深度（max_depth_rf）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 max_depth_rf，默认为None。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：限制每棵决策树的最大深度。较小的深度可以限制模型的复杂性和过拟合的风险，但可能会导致模型欠拟合。如果不指定最大深度（或将其设置为
+                None），树会生长到纯净（所有叶节点都包含相同的类别）或达到最小样本拆分要求为止。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">3.特征子集大小（max_features）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 max_features，默认为auto。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：确定用于拆分每个节点的特征子集的大小。较小的值可以减少模型的相关性和计算成本，但可能会导致模型的方差增加。常见的设置包括使用
+                sqrt（特征总数的平方根）或 log2（特征总数的以2为底的对数）。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">4.最小样本拆分要求（min_samples_split）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 min_samples_split，默认为2。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：指定进行拆分所需的最小样本数。如果某个节点的样本数量小于该值，则不会再进行拆分。较大的值可以防止过拟合，但可能会导致欠拟合。一般来说，可以尝试不同的值，选择能够平衡模型复杂性和性能的最佳值。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">5.叶节点最小样本数（min_samples_leaf）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 min_samples_leaf， 默认为1。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：指定叶节点所需的最小样本数。如果某个叶节点的样本数量小于该值，则不会进行进一步的拆分，即使拆分可能会提高纯度。较小的值可以使模型更加敏感，但可能会导致过拟合。一般来说，可以尝试不同的值，选择能够平衡模型复杂性和性能的最佳值。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">n_estimators=100
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_depth_rf=None
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min_samples_split=2
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min_samples_leaf=1
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_features=auto</span>
+            </p>
+            <h4 id="a3-6-5">5.支持向量机（Support Vector Machines）</h4>
+            <p class="paragraph">参数详解</p>
+            <p class="paragraph" style="font-weight: lighter;">1.核函数（kernel）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 kernel，默认为rbf，其余可填（rbf,linear,sigmoid,poly）。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：确定用于将输入特征映射到高维空间的核函数类型。常见的核函数包括线性核（linear）、多项式核（polynomial）、高斯径向基核（rbf）等。选择适当的核函数取决于数据的特性和非线性关系的复杂程度。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">2.正则化参数（C）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 C，默认为1.0。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：控制错误分类样本的惩罚程度。较小的 C 值会导致容忍更多的错误分类，使决策边界更加平滑。较大的 C
+                值会强调分类的准确性，可能导致更复杂的决策边界和较少的错误分类。调整 C 的值可以平衡模型的偏差和方差。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">kernel=rbf
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C=1.0</span>
+            </p>
+            <h4 id="a3-6-6">6.线性判别分析（Linear Discriminant Analysis）</h4>
+            <p class="paragraph" style="font-weight: lighter;">线性判别分析（Linear Discriminant
+                Analysis，LDA）是一种具有较少可调参数的统计模型。相对于其他机器学习算法，LDA的参数调整相对较少，主要是因为以下几个原因：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.数据驱动的优化：LDA是一种基于数据分布的有监督学习方法。它通过最大化类别间距离和最小化类别内距离来确定投影方向。这种数据驱动的优化过程使得LDA能够自动适应数据的特征和结构，而无需过多的参数调整。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.降维性能稳定：LDA的主要应用之一是降维，将高维数据映射到低维空间。LDA通过选择具有最大类别间方差和最小类别内方差的主成分来实现降维。这种设计使得LDA在保留类别信息的同时，具有较好的降维性能。因此，通常情况下，不需要调整参数来改善降维的性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.低复杂性模型：LDA是一种相对简单的线性模型。它假设类别的协方差矩阵是相等且满足正态分布，这使得模型具有较少的自由度和参数。由于模型的简单性，LDA的参数调整空间较小。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通常情况下，LDA能够提供较好的性能和稳定的结果，而且很少需要进行大量的参数调整。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">无需调参</span></p>
+            <h4 id="a3-6-7">7.高斯朴素贝叶斯（Gaussian Naive Bayes）</h4>
+            <p class="paragraph" style="font-weight: lighter;">一般情况下，不需要调整高斯朴素贝叶斯（Gaussian Naive Bayes）的参数，原因如下：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.简单性和稳定性：高斯朴素贝叶斯是一种简单而稳定的分类器。它基于贝叶斯定理和特征独立性假设，通过计算后验概率来进行分类。由于特征独立性假设，高斯朴素贝叶斯的参数调整空间较小，模型的复杂性相对较低。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.朴素贝叶斯的参数学习：高斯朴素贝叶斯通过观察训练数据中不同类别的样本，自动学习每个类别的均值和方差等参数。这意味着模型会根据数据的分布自适应地确定参数，无需手动干预。因此，一般情况下不需要进行参数调整。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.先验概率的自动计算：高斯朴素贝叶斯根据训练集中每个类别的样本数量计算先验概率。这样可以更好地反映训练数据中类别的分布情况。如果数据集是均衡的，先验概率会自动地反映这种均衡性。如果数据集是不均衡的，高斯朴素贝叶斯仍然可以通过样本数量进行适当的调整。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;尽管高斯朴素贝叶斯的参数调整空间较小，但在某些特殊情况下，如数据集存在类别不平衡或具有先验知识时，可以通过手动设置先验概率参数来进行调整。但在大多数情况下，高斯朴素贝叶斯能够提供较好的性能和稳定的结果，无需进行大量的参数调整。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">无需调参</span></p>
+
+            <h4 id="a3-6-8">8.梯度提升决策树（GBDT,Gradient Boosting Decision Trees）</h4>
+            <p class="paragraph">参数详解</p>
+            <p class="paragraph" style="font-weight: lighter;">1.学习率（learning rate_gbdt）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 learning_rate_gbdt，默认为0.1，范围为[0,1]。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：学习率控制每个基础决策树对最终模型的贡献程度。较小的学习率可以使模型更加稳定，但需要更多的弱分类器（决策树）来构建强大的集成模型。较大的学习率可以加快模型的收敛速度，但可能导致过拟合。通常，学习率的合理范围是[0,
+                1]之间。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">2.基础决策树的数量（n_estimators_gbdt）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 n_estimators_gbdt，默认为100。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：指定要构建的基础决策树的数量。增加基础决策树的数量可以增加模型的复杂度和学习能力，但也可能导致过拟合。通常，需要通过交叉验证等方法选择合适的
+                n_estimators_gbdt值。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">3.决策树的最大深度（max_depth_gbdt）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 max_depth_gbdt，默认为6。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：用于限制决策树的最大深度。较小的最大深度可以防止过拟合，但可能导致模型欠拟合。较大的最大深度允许模型学习更复杂的特征和关系，但也容易过拟合。通常，需要通过交叉验证等方法选择合适的
+                max_depth_gbdt 值。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">4.列采样比例（subsample）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 subsample，默认为0.5。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：用于控制每个基础决策树的样本采样比例。较小的采样比例可以增加模型的随机性，减少过拟合的风险。较大的采样比例可以增加模型的稳定性，但可能导致模型欠拟合。通常，采样比例的合理范围是(0,
+                1]之间。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">learning rate_gbdt=0.1
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n_estimators_gbdt=100
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_depth_gbdt=6
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subsample=0.5</span>
+            </p>
+            <h4 id="a3-6-9">9.XGBoost（eXtreme Gradient Boosting）</h4>
+            <p class="paragraph">参数详解</p>
+            <p class="paragraph" style="font-weight: lighter;">1.决策树的最大深度（max_depth_xgb）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 max_depth_xgb，默认为6。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：用于限制决策树的最大深度。较小的最大深度可以防止过拟合，但可能导致模型欠拟合。较大的最大深度允许模型学习更复杂的特征和关系，但也容易过拟合。通常，需要通过交叉验证等方法选择合适的
+                max_depth 值。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">2.正则化参数（reg_lambda 或 reg_alpha）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：表示为 reg_lambda（L2正则化），默认为1或 reg_alpha（L1正则化），默认为1。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：用于控制模型的正则化程度，以防止过拟合。正则化通过在损失函数中引入惩罚项来限制模型权重的大小。较大的正则化参数值会增加正则化的强度，抑制模型的复杂度。通常，需要通过交叉验证等方法选择合适的正则化参数值。
+            </p>
+            <p class="paragraph" style="font-weight: lighter;">3.子样本的最小权重（min_child_weight）：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--参数名称：通常表示为
+                min_child_weight，默认为0.1，范围{1,0.1,0.001,0.0001}。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--设置方法：用于控制子样本（叶子节点）的最小权重和。如果某个叶子节点的权重和小于设定的最小权重，将停止该分裂过程。这个参数可以用来防止过拟合。较大的值可以使模型更加保守，但可能导致欠拟合。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">min_child_weight=0.1
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_depth_xgb=6
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg_alpha=1
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg_lambda=1</span>
+            </p>
+            <h4 id="a3-6-10">10.自适应增强算法（AdaBoost）</h4>
+            <p class="paragraph" style="font-weight: lighter;">
+                一般情况下，AdaBoost的默认参数在很多场景下已经表现出良好的性能，因此在实际应用中不需要进行大量的参数调整。以下是一些原因：
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.
+                基础模型的默认选择：AdaBoost的默认基础模型是决策树，而决策树在许多问题上表现良好。因此，如果问题的特点与决策树匹配，使用默认的基础模型可能已经足够。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.
+                弱分类器数量的默认设置：AdaBoost默认使用50个弱分类器，这在大多数情况下已经足够。增加弱分类器的数量可能会导致过拟合，并增加训练时间。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.
+                自适应权重更新：AdaBoost通过自适应地更新样本权重来调整模型的关注度。这种自适应性可以帮助模型更好地适应数据集，减少了对手动调整权重的需求。
+            </p>
+            <p class="paragraph">示例参数：<span style="font-weight: bold; color: rgb(184, 23, 23);">无需调参</span></p>
+
+            <h3 id="a3-7" style="font-family:Arial; color:rgb(23, 23, 171)">Step7、模型评估</h3>
+            <p class="paragraph" style="font-weight: lighter;">在模型训练完成后应用将自动评估模型，评估标准包括：<span
+                    style="color: rgb(184, 23, 23);">AUC、训练集准确率、测试集准确率、F1分数、召回率、精确率、交叉熵损失</span>等。</p>
+            <p class="paragraph" style="font-weight: lighter;"><span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">AUC（Area Under the
+                    Curve）</span>：AUC是ROC曲线下的面积，用于衡量二分类模型在不同阈值下的分类性能。AUC的取值范围在0到1之间，值越接近1表示模型性能越好，能够更好地区分正例和负例。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">训练集准确率（Training Set
+                    Accuracy）</span>：训练集准确率是指在训练数据集上分类模型的预测准确率。它衡量模型对训练数据的拟合程度，但不能反映模型在新数据上的泛化能力。高训练集准确率可能是过拟合的迹象。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">测试集准确率（Test Set
+                    Accuracy）</span>：测试集准确率是指在测试数据集上分类模型的预测准确率。它是评估模型在未见过的数据上的性能表现的重要指标。高测试集准确率意味着模型能够在新数据上进行准确的分类。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">F1分数（F1
+                    Score）</span>：F1分数综合考虑了模型的精确率（Precision）和召回率（Recall），是一个综合评估指标。F1分数的取值范围在0到1之间，值越接近1表示模型在精确率和召回率之间取得了较好的平衡。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">召回率（Recall）</span>：召回率也称为查全率，是指模型正确预测为正例的样本数与真实正例样本数的比例。它衡量模型对正例样本的识别能力，对于一些重要的分类问题，高召回率往往是关键指标。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">精确率（Precision）</span>：精确率是指模型预测为正例的样本中，真实正例的比例。它衡量模型的预测准确性，特别适用于需要保证预测准确性的问题。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">交叉熵损失（Cross-Entropy
+                    Loss）</span>：交叉熵损失是在分类问题中常用的损失函数之一。它衡量了模型的预测概率与真实标签之间的差异。通过最小化交叉熵损失，可以使模型的预测更接近真实标签，提高分类模型的性能。
+            </p>
+            <h3 id="a3-8" style="font-family:Arial; color:rgb(23, 23, 171)">Step8、图表绘制及分析</h3>
+            <p class="paragraph" style="font-weight: lighter;"><span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">Accurancy和Loss学习曲线图</span>：准确率和损失学习曲线图是用于可视化模型在训练集和验证集上的准确率和损失随着训练轮数或样本数量的变化情况。这些学习曲线图有助于评估模型的训练进程和性能，并帮助我们判断模型是否过拟合或欠拟合。
+                <br><span style="font-weight: bold; ">准确率学习曲线图具有以下特征：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--x轴：表示样本数量。随着训练的进行，x轴的值逐渐增加。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--y轴：表示准确率。准确率是分类模型中常用的性能指标，表示模型对于预测结果的正确性。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--曲线图：准确率学习曲线图会绘制训练集和验证集上的准确率随着样本数量的变化。通常会有两条曲线，一条表示训练集上的准确率，另一条表示验证集上的准确率。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过观察准确率学习曲线图，我们可以了解模型在训练过程中的学习情况。随着训练的进行，训练集和验证集上的准确率可能会有所变化。如果训练集和验证集上的准确率均逐渐增加并收敛到较高的值，则说明模型的学习效果较好。如果训练集上的准确率高于验证集上的准确率，且两者之间存在较大差距，则可能存在过拟合问题。
+            </p>
+            <p class="center"><img src="images\accuracy_learning_curve.jpg" style="width: 600px; height: 400px;"></p>
+            <p class="paragraph" style="font-weight: lighter;">
+                <br><span style="font-weight: bold; ">损失学习曲线图具有以下特征：</span>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--x轴：表示样本数量。随着训练的进行，x轴的值逐渐增加。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--y轴：表示损失值。损失值是衡量模型预测误差的指标，常见的损失函数包括均方误差（Mean Squared
+                Error）和交叉熵损失（Cross-Entropy Loss）等。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--曲线图：损失学习曲线图会绘制训练集和验证集上的损失值随着样本数量的变化。通常会有两条曲线，一条表示训练集上的损失值，另一条表示验证集上的损失值。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过观察损失学习曲线图，我们可以了解模型在训练过程中的优化情况。随着训练的进行，训练集和验证集上的损失值可能会有所变化。如果训练集和验证集上的损失值均逐渐减小并收敛到较低的值，则说明模型的优化效果较好。如果训练集上的损失值低于验证集上的损失值，且两者之间存在较大差距，则可能存在过拟合问题。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;准确率和损失学习曲线图可以帮助我们监控模型的训练过程并判断模型的性能。同时，它们还可以用来进行超参数调整和模型选择，以获得更好的模型性能。
+            </p>
+            <p class="center"><img src="images\loss_learning_curve.jpg" style="width: 600px; height: 400px;"></p>
+            <p class="paragraph" style="font-weight: lighter;"><span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">ROC曲线</span>：ROC曲线（Receiver Operating
+                Characteristic curve）是一种评估二分类模型性能的常用工具。它以假阳性率（False Positive Rate, FPR）为横轴，真阳性率（True Positive Rate,
+                TPR）为纵轴，绘制出模型在不同阈值下的分类性能。
+                <br>ROC曲线上的每个点代表了模型在不同阈值下的分类性能。曲线越靠近左上角，模型的性能越好。此外，可以使用曲线下面积（Area Under the ROC Curve,
+                AUC）作为一个综合度量，AUC值越接近1，表示模型的性能越好。
+            </p>
+            <p style="margin-left: 27%;"><img src="images\ROC_curve.jpg" style="width: 500px; height: 500px;"></p>
+            <p class="paragraph" style="font-weight: lighter;"><span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">PR曲线</span>：PR曲线（Precision-Recall
+                curve）是一种评估二分类模型性能的曲线，它以召回率（Recall）为横轴，精确率（Precision）为纵轴，展示了模型在不同阈值下的分类性能。
+                <br>PR曲线上的每个点代表了模型在不同阈值下的分类性能。曲线越靠近右上角，模型的性能越好。与ROC曲线不同，PR曲线更适用于处理不平衡类别的数据集，尤其当负类样本数量较多时。
+            </p>
+            <p style="margin-left: 27%;"><img src="images\PR_curve.jpg" style="width: 500px; height: 500px;"></p>
+            <p class="paragraph" style="font-weight: lighter;"><span
+                    style="font-weight: bold; color: rgb(184, 23, 23);">混淆矩阵</span>：混淆矩阵（Confusion
+                Matrix）是一种用于评估分类模型性能的表格，它展示了模型在测试数据集上的预测结果与真实标签之间的关系。混淆矩阵主要由四个元素组成：真阳性（True Positive, TP）、真阴性（True
+                Negative, TN）、假阳性（False Positive, FP）和假阴性（False Negative, FN）。
+                <br>混淆矩阵提供了对模型分类性能的详细分析，可以帮助我们了解模型在不同类别上的预测情况，从而更全面地评估模型的效果。
+            </p>
+            <p style="margin-left: 27%;"><img src="images\Confusion_Matrix.jpg" style="width: 500px; height: 500px;"></p>
+            <p class="paragraph" ><span style="color: rgb(184, 23, 23);">以上图片将在当前路径下自动生成的Output文件夹下保存。</span></p>
+            
+            <h2 id="a4" style="font-family:Arial; color:rgb(23, 23, 171)">四、未来更新目标</h2>
+            <p class="paragraph">我们计划在下一次更新中添加以下功能：</p>
+            <p class="paragraph" style="font-weight: lighter;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--可供选择的机器学习算法支持
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--更多数据预处理选项和功能
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--自动搜索最优参数
+            </p>
+            <h3 class="paragraph"><strong>&nbsp;&nbsp;&nbsp;</strong>我们致力于持续改进和更新我们的机器学习
+                App，以满足用户需求和提供更好的体验。请随时关注我们的更新，并提供宝贵的反馈意见，以帮助我们不断提升应用的功能和性能。
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;谢谢您选择使用我们的机器学习 App！祝您在机器学习项目中取得成功！
+            </h3>
+            <footer>
+                <p style="font-size: medium; font-weight: lighter; margin: 0%; line-height: 100%;">
+                    <br>版权所有：LC-Bio<sup>®</sup>&nbsp;|&nbsp;联川生物<br><br>联系方式：1018849303@qq.com</p><br>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>
